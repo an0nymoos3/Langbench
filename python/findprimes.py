@@ -1,8 +1,9 @@
 import time, math
+import argparse
 
-def findprimes():
+def findprimes(limit):
     primes = [2]
-    for i in range(2, 10_000_000):
+    for i in range(2, int(limit)):
         is_prime = True
         sqrt_i = math.sqrt(i)
         for _,j in enumerate(primes):
@@ -16,8 +17,13 @@ def findprimes():
             primes.append(i)
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('integers', metavar='N', type=int, nargs='+',
+                    help='an upper limit to go to')
+    args = parser.parse_args()
+
     start_time = time.time()
-    findprimes()
+    findprimes(args.integers[0])
     end_time = time.time()
 
     print(f"Python execution time: {(end_time - start_time) * 1000}ms")

@@ -4,20 +4,21 @@ import java.lang.Math;
 public class FindPrimes
 {
     public static void main(String[] args) {
+		int limit = Integer.parseInt(args[0]);
 		final long startTime = System.currentTimeMillis();
 
-		calculatePrimes();
+		calculatePrimes(limit);
 
 		final long endTime = System.currentTimeMillis();
 		System.out.println("Java execution time: " + (endTime - startTime) + "ms");
     }
 
-    public static void calculatePrimes() {
+    public static void calculatePrimes(int limit) {
 	// Create a vector to store known primes
 		ArrayList<Integer> primes = new ArrayList<>();
 		primes.add(2); // Add first known prime
 
-		for (int i=2; i < 10000000; i++) { // Iterate over all numbers from 2 to 10,000,000
+		for (int i=2; i < limit; i++) { // Iterate over all numbers from 2 to 10,000,000
 			boolean isPrime = true;
 			double sqrt_i = Math.sqrt(i);
 			for (int j = 0; j < primes.size(); j++) {
