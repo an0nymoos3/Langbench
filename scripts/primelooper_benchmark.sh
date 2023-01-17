@@ -28,7 +28,7 @@ echo "Running C++ benchmark"
 
 # -- Python -- 
 echo "Running python benchmark..."
-python python/primelooper.py $max_time
+python3 python/primelooper.py $max_time
 
 # -- JavaScript --
 echo "Running js benchmark..."
