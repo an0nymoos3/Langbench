@@ -1,4 +1,4 @@
-echo "How long would you like to run for? [unit seconds]"
+echo "How high (max number) would you like to go?"
 read max_num
 
 # -- Java --
@@ -43,6 +43,6 @@ python python/findprimes.py $max_num
 
 # -- JavaScript --
 echo "Running js benchmark..."
-node /home/oharradine/projects/fun_stuff/javascript/findprimes.js $max_num > /dev/null
-node /home/oharradine/projects/fun_stuff/javascript/findprimes.js $max_num > /dev/null
-node /home/oharradine/projects/fun_stuff/javascript/findprimes.js $max_num
+node $(pwd)/javascript/findprimes.js $max_num > /dev/null
+node $(pwd)/javascript/findprimes.js $max_num > /dev/null
+node $(pwd)/javascript/findprimes.js $max_num
