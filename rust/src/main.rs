@@ -11,10 +11,10 @@ struct Args {
 }
 
 fn calc_primes(limit: i32) {
-    // Create a vector with the lowest prime number
-    let mut primes: Vec<i32> = vec![2];
+    let mut primes: Vec<i32> = Vec::new();
+    primes.push(2);
 
-    for i in 2..limit {
+    for i in 3..limit {
         let mut is_prime: bool = true;
         let sqrt_i = f64::sqrt(i as f64);
         
@@ -36,6 +36,7 @@ fn calc_primes(limit: i32) {
 fn main() {
     let args = Args::parse();
     let limit = args.limit as i32;
+    
     let start = Instant::now();
 
     calc_primes(limit);

@@ -15,14 +15,15 @@ public class FindPrimes
 
     public static void calculatePrimes(int limit) {
 	// Create a vector to store known primes
-		ArrayList<Integer> primes = new ArrayList<>();
+		ArrayList<Integer> primes = new ArrayList<Integer>();
 		primes.add(2); // Add first known prime
 
-		for (int i=2; i < limit; i++) { // Iterate over all numbers from 2 to 10,000,000
+		for (int i=3; i < limit; i++) { // Iterate over all numbers from 2 to 10,000,000
 			boolean isPrime = true;
 			double sqrt_i = Math.sqrt(i);
+			
 			for (int j = 0; j < primes.size(); j++) {
-				if (j > sqrt_i) { // Max value to compare with (due to how math works)
+				if (primes.get(j) > sqrt_i) { // Max value to compare with (due to how math works)
 					break;
 				}
 					

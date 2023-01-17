@@ -1,9 +1,11 @@
-echo "How high (max number) would you like to go?"
+echo "How long would you like to run for? [unit seconds]"
 read max_num
 
 # -- Java --
 echo "Running Java benchmark..."
 
+java java/FindPrimes.java $max_num > /dev/null
+java java/FindPrimes.java $max_num > /dev/null
 java java/FindPrimes.java $max_num
 
 # - Rust --
@@ -17,6 +19,8 @@ cd ..
 echo "Running Rust benchmark..."
 sleep 1
 
+./rust/target/release/findprimes -l $max_num > /dev/null
+./rust/target/release/findprimes -l $max_num > /dev/null
 ./rust/target/release/findprimes -l $max_num
 
 # -- C++ --
@@ -26,9 +30,19 @@ g++ c/findprimes.cpp -o c/findprimes
 
 echo "Running C++ benchmark"
 sleep 1
+./c/findprimes $max_num > /dev/null
+./c/findprimes $max_num > /dev/null
 ./c/findprimes $max_num
 
 # -- Python -- 
 echo "Running python benchmark..."
 
+python python/findprimes.py $max_num > /dev/null
+python python/findprimes.py $max_num > /dev/null
 python python/findprimes.py $max_num
+
+# -- JavaScript --
+echo "Running js benchmark..."
+node /home/oharradine/projects/fun_stuff/javascript/findprimes.js $max_num > /dev/null
+node /home/oharradine/projects/fun_stuff/javascript/findprimes.js $max_num > /dev/null
+node /home/oharradine/projects/fun_stuff/javascript/findprimes.js $max_num
