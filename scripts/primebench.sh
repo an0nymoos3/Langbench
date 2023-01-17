@@ -37,9 +37,9 @@ sleep 1
 # -- Python -- 
 echo "Running python benchmark..."
 
-python python/findprimes.py $max_num > /dev/null
-python python/findprimes.py $max_num > /dev/null
-python python/findprimes.py $max_num
+python3 python/findprimes.py $max_num > /dev/null
+python3 python/findprimes.py $max_num > /dev/null
+python3 python/findprimes.py $max_num
 
 # -- JavaScript --
 echo "Running js benchmark..."
