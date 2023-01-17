@@ -12,16 +12,16 @@ java java/FindPrimes.java $max_num
 echo "Compiling Rust benchmark..."
 sleep 1
 
-cd rust
+cd rust/primefinder/
 cargo build --release --quiet
 cd ..
 
 echo "Running Rust benchmark..."
 sleep 1
 
-./rust/target/release/findprimes -l $max_num > /dev/null
-./rust/target/release/findprimes -l $max_num > /dev/null
-./rust/target/release/findprimes -l $max_num
+./rust/primefinder/target/release/findprimes -l $max_num > /dev/null
+./rust/primefinder/target/release/findprimes -l $max_num > /dev/null
+./rust/primefinder/target/release/findprimes -l $max_num
 
 # -- C++ --
 echo "Compiling C++ benchmark"
