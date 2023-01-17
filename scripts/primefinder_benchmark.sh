@@ -14,14 +14,14 @@ sleep 1
 
 cd rust/primefinder/
 cargo build --release --quiet
-cd ..
+cd ../..
 
 echo "Running Rust benchmark..."
 sleep 1
 
-./rust/primefinder/target/release/findprimes -l $max_num > /dev/null
-./rust/primefinder/target/release/findprimes -l $max_num > /dev/null
-./rust/primefinder/target/release/findprimes -l $max_num
+./rust/primefinder/target/release/primefinder -l $max_num > /dev/null
+./rust/primefinder/target/release/primefinder -l $max_num > /dev/null
+./rust/primefinder/target/release/primefinder -l $max_num
 
 # -- C++ --
 echo "Compiling C++ benchmark"
