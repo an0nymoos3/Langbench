@@ -1,8 +1,25 @@
 import time, math
 import argparse
+from multiprocessing import cpu_count, Process, Queue
 
+Q = Queue()
 
 def findprimes(time_limit):
+    primes = 0
+    procs = []
+    for _ in range(cpu_count()):  # Split load evenly across CPU cores
+        p = Process(target=calc_primes, args=(time_limit,))
+        p.start()
+        procs.append(p)
+
+    for _ in procs:
+        print(Q.get())
+        primes += Q.get()
+
+    return primes
+
+
+def calc_primes(time_limit):
     start_time = time.time()
     primes = [2]
     current_num = 3
@@ -28,9 +45,10 @@ def findprimes(time_limit):
         if current_num >= 1_000_000:
             current_num = 3
         else:
-            current_num += 1
+            current_num += 2
 
-    return len(primes)
+    Q.put(len(primes))
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -40,7 +58,7 @@ def main():
 
     primes_found = findprimes(args.time[0])
 
-    print(f"Python ran: {primes_found / 78498} cycles")
+    print(f"Python ran: {primes_found / 78498} cycle(s)")
 
 
 if __name__ == "__main__":

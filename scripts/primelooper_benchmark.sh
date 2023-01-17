@@ -3,7 +3,7 @@ read max_time
 
 # -- Java --
 echo "Running Java benchmark..."
-#java java/FindPrimes.java $max_time
+java java/primelooper/src/Main.java $max_time
 
 # - Rust --
 echo "Compiling Rust benchmark..."
@@ -14,17 +14,15 @@ cargo build --release --quiet
 cd ../..
 
 echo "Running Rust benchmark..."
-sleep 1
 ./rust/primelooper/target/release/primelooper -l $max_time
 
 # -- C++ --
 echo "Compiling C++ benchmark"
 #sleep 1
-#g++ c/findprimes.cpp -o c/findprimes
+g++ c/primelooper.cpp -o c/primelooper
 
 echo "Running C++ benchmark"
-#sleep 1
-#./c/findprimes $max_time
+./c/primelooper $max_time
 
 # -- Python -- 
 echo "Running python benchmark..."
@@ -32,4 +30,4 @@ python3 python/primelooper.py $max_time
 
 # -- JavaScript --
 echo "Running js benchmark..."
-#node $(pwd)/javascript/findprimes.js $max_time
+node $(pwd)/javascript/primelooper.js $max_time

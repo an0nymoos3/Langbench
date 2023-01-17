@@ -4,9 +4,9 @@ read max_num
 # -- Java --
 echo "Running Java benchmark..."
 
-java java/FindPrimes.java $max_num > /dev/null
-java java/FindPrimes.java $max_num > /dev/null
-java java/FindPrimes.java $max_num
+java java/primefinder/src/Main.java $max_num > /dev/null
+java java/primefinder/src/Main.java $max_num > /dev/null
+java java/primefinder/src/Main.java $max_num
 
 # - Rust --
 echo "Compiling Rust benchmark..."

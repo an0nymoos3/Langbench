@@ -11,10 +11,10 @@ struct Args {
 }
 
 fn calc_primes(time_limit: u128) -> usize{
-    let mut primes: Vec<f64> = Vec::new();
-    primes.push(2.0);
+    let mut primes: Vec<i32> = Vec::new();
+    primes.push(2);
 
-    let mut current_num: f64 = 3.0;
+    let mut current_num: i32 = 3;
 
     let start: Instant = Instant::now();
     let mut elapsed_time = start.elapsed().as_millis();
@@ -24,13 +24,13 @@ fn calc_primes(time_limit: u128) -> usize{
         elapsed_time = start.elapsed().as_millis();
         
         let mut is_prime: bool = true;
-        let sqrt_num: f64 = f64::sqrt(current_num);
+        let sqrt_num: f64 = f64::sqrt(current_num as f64);
         
         for j in primes.iter() {
-            if j >  &sqrt_num{
+            if *j as f64 >  sqrt_num{
                 break;
             }
-            if current_num % j == 0.0 {
+            if current_num % j == 0 {
                 is_prime = false;
                 break;
             }
@@ -39,11 +39,11 @@ fn calc_primes(time_limit: u128) -> usize{
             primes.push(current_num);
         }
 
-        if current_num >= 1000000.0 {
-            current_num = 3.0
+        if current_num >= 1000000 {
+            current_num = 3
         }
         else {
-            current_num += 1.0;
+            current_num += 2;
         }
     }
     return primes.len()

@@ -8,7 +8,7 @@ int calc_size(int limit) {
     // Vector for storing primes
     std::vector<int> primes = {2};
 
-    for (int i=2; i<limit; i++) {
+    for (int i=3; i<limit; i++) {
         bool is_prime = true;
         double sqrt_i = std::sqrt(i);
         int size = primes.size();
@@ -34,7 +34,7 @@ void findprimes(int limit, int size) {
     primes[0] = 2;
     int counter = 1;
 
-    for (int i=3; i<limit; i++) {
+    for (int i=3; i<limit; i+=2) {
         bool is_prime = true;
         double sqrt_i = std::sqrt(i);
 

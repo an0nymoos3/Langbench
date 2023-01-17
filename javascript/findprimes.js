@@ -17,7 +17,7 @@ function getPrimes(upperbound) {
     let array_of_primes = Array();
     array_of_primes.push(2)
 
-    for (let i = 3; i < upperbound; i++) {
+    for (let i = 3; i < upperbound; i+=2) {
         let is_prime = true;
         let sqrtOfI = Math.sqrt(i)
         

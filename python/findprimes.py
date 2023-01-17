@@ -3,7 +3,7 @@ import argparse
 
 def findprimes(limit):
     primes = [2]
-    for i in range(3, int(limit)):
+    for i in range(3, int(limit), 2):
         is_prime = True
         sqrt_i = math.sqrt(i)
         for _,j in enumerate(primes):

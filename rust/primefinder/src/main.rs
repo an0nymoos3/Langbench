@@ -14,7 +14,7 @@ fn calc_primes(limit: i32) {
     let mut primes: Vec<i32> = Vec::new();
     primes.push(2);
 
-    for i in 3..limit {
+    for i in (3..limit).step_by(2) {
         let mut is_prime: bool = true;
         let sqrt_i = f64::sqrt(i as f64);
         
