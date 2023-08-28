@@ -1,3 +1,4 @@
+echo "Note: All benchmarks are run 3 times to allow the program to 'warm up'."
 echo "For how long would you like to benchmark each language? [unit seconds]"
 read max_time
 
@@ -19,7 +20,7 @@ echo "Running Rust benchmark..."
 # -- C++ --
 echo "Compiling C++ benchmark"
 #sleep 1
-g++ c/primelooper.cpp -o c/primelooper
+g++ -O3 c/primelooper.cpp -o c/primelooper
 
 echo "Running C++ benchmark"
 ./c/primelooper $max_time

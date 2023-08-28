@@ -1,3 +1,4 @@
+echo "Note: All benchmarks are run 3 times to allow the program to 'warm up'."
 echo "How high (max number) would you like to go?"
 read max_num
 
