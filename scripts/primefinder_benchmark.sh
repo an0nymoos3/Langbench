@@ -26,7 +26,7 @@ sleep 1
 # -- C++ --
 echo "Compiling C++ benchmark"
 sleep 1
-g++ c/findprimes.cpp -o c/findprimes
+g++ -O3 c/findprimes.cpp -o c/findprimes
 
 echo "Running C++ benchmark"
 sleep 1

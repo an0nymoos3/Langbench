@@ -29,7 +29,7 @@ int calc_size(int limit) {
 }
 
 void findprimes(int limit, int size) {
-    // Vector for storing primes
+    // Array for storing primes
     int primes[size];
     primes[0] = 2;
     int counter = 1;

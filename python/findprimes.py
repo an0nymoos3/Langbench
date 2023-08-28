@@ -27,7 +27,7 @@ def main():
     findprimes(args.integers[0])
     end_time = time.time()
 
-    print(f"Python execution time: {(end_time - start_time) * 1000}ms")
+    print(f"Python execution time: {int((end_time - start_time) * 1000)}ms")
 
 
 if __name__ == "__main__":
