@@ -1,4 +1,4 @@
-import time, math
+import math
 import argparse
 
 def findprimes(limit):
@@ -23,11 +23,7 @@ def main():
                     help='an upper limit to go to')
     args = parser.parse_args()
 
-    start_time = time.time()
     findprimes(args.integers[0])
-    end_time = time.time()
-
-    print(f"Python execution time: {int((end_time - start_time) * 1000)}ms")
 
 
 if __name__ == "__main__":

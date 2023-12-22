@@ -2,15 +2,7 @@ function main() {
     process.argv.forEach(function (val, index, array) {
         upperbound = val
     })
-
-    var start = new Date()
-
     array_of_primes = getPrimes(upperbound);
-    
-    var end = new Date()
-    
-    exec_time = end.getTime() - start.getTime() 
-    console.log("Javascript execution time:", exec_time + "ms");
 }
 
 function getPrimes(upperbound) {

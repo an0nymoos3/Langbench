@@ -5,12 +5,7 @@ public class Main
 {
     public static void main(String[] args) {
         int limit = Integer.parseInt(args[0]);
-        final long startTime = System.currentTimeMillis();
-
         calculatePrimes(limit);
-
-        final long endTime = System.currentTimeMillis();
-        System.out.println("Java execution time: " + (endTime - startTime) + "ms");
     }
 
     public static void calculatePrimes(int limit) {

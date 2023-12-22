@@ -1,4 +1,3 @@
-use std::time::{Instant};
 use clap::Parser;
 
 /// A program that does things
@@ -11,15 +10,14 @@ struct Args {
 }
 
 fn calc_primes(limit: i32) {
-    let mut primes: Vec<i32> = Vec::new();
-    primes.push(2);
-
+    let mut primes: Vec<i32> = vec![2];
+ 
     for i in (3..limit).step_by(2) {
         let mut is_prime: bool = true;
-        let sqrt_i = f64::sqrt(i as f64);
+        let sqrt_i: f32 = f32::sqrt(i as f32);
         
         for j in primes.iter() {
-            if *j as f64 >  sqrt_i{
+            if *j as f32 >  sqrt_i{
                 break;
             }
             if i % j == 0 {
@@ -34,14 +32,7 @@ fn calc_primes(limit: i32) {
 }
 
 fn main() {
-    let args = Args::parse();
-    let limit = args.limit as i32;
-    
-    let start = Instant::now();
+    let limit: i32 = Args::parse().limit as i32;
 
     calc_primes(limit);
-    
-    let elapsed_time = start.elapsed().as_millis();
-
-    println!("Rust exection time: {}ms", elapsed_time);
 }
