@@ -1,4 +1,0 @@
-./rust/primefinder/target/release/primefinder -l 5000000
-Time: 0.20
-100%
-

@@ -1,4 +1,0 @@
-node /home/oharradine/projects/fun_stuff/javascript/findprimes.js 5000000
-Time: 0.32
-103%
-
