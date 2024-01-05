@@ -51,10 +51,10 @@ def draw_pretty_progress(progress_text):
 
     # Build the progress bar string.
     bar = "["
-    for i in range(BENCHMARK_PROGRESS):
+    for _ in range(BENCHMARK_PROGRESS):
         bar += "="
     bar += ">"
-    for i in range(TOTAL_BENCHMARK_STEPS - BENCHMARK_PROGRESS):
+    for _ in range(TOTAL_BENCHMARK_STEPS - BENCHMARK_PROGRESS):
         bar += " "
     bar += "]"
 
