@@ -11,30 +11,31 @@ BENCHMARK_PROGRESS = 0
 # Global variable representing total amount of steps (seconds) in program. Used for progress bar.
 TOTAL_BENCHMARK_STEPS = 25
 
-def compile_lang(source_files):
+def compile_lang(source_files) -> None:
     """
-    Compile program.
+    Compile benchmark for specified programming language.
     """
     os.system("clear")
     print(f"Compiling: {source_files}")
     subprocess.run(source_files, shell=True)
 
 
-def run_script(script_command):
+def benchmark_lang(script_command, max_time) -> float:
     """
-    Time the execution of program.
+    Runs each language for the designated amount of time.
+    Returns the number of cycles the program managed to run.
     """
     global BENCHMARK_PROGRESS
 
     BENCHMARK_PROGRESS += 1
     draw_pretty_progress(f"Running: {script_command}")
 
-    start_time = time.time()
-    subprocess.run(script_command, shell=True)
-    end_time = time.time()
-    execution_time = end_time - start_time
+    proc = subprocess.Popen([], stdout=subprocess.PIPE)
+    time.sleep(5.0)
+    out = proc.communicate()[0]
+    print(out)
 
-    return execution_time
+    return out
 
 
 def draw_pretty_progress(progress_text):
@@ -63,12 +64,13 @@ def draw_pretty_progress(progress_text):
 if __name__ == "__main__":
     os.system("clear")
     max_num = input("How high (max number) would you like to go? ")
+    max_time = input("How much time would you like to give each language? ")
 
-    results = {"C++": 0,
-               "Java": 0,
-               "JavaScript": 0,
-               "Python": 0,
-               "Rust": 0}
+    results = {"C++": 0.0,
+               "Java": 0.0,
+               "JavaScript": 0.0,
+               "Python": 0.0,
+               "Rust": 0.0}
 
     compile_commands = [
         "g++ -O3 c/findprimes.cpp -o c/findprimes",
@@ -82,38 +84,14 @@ if __name__ == "__main__":
         "Python": "python3 python/findprimes.py {}".format(max_num),
         "Rust": "./rust/primefinder/target/release/primefinder -l {}".format(max_num)}
 
-    # Uncomment below for multithreading in future
-    # Compile all compiled languages
-    #with concurrent.futures.ProcessPoolExecutor() as executor:
-    #    compile_script, compile_commands
-
+    # Compile all the languages.
     for compilation in compile_commands:
         compile_lang(compilation)
 
-    # Run all languages 3 times
-    #for i in range(3):
-    #    with concurrent.futures.ProcessPoolExecutor() as executor:
-    #        results = list(executor.map(run_script, script_commands))
-    #
-        # Add result to language
-    #    index = 0
-    #    for language in execution_time: 
-    #        execution_time[language] += results[index]
-    #        index += 1
-
-
+    # Benchmark all the languages.
     for language in benchmark_commands:
-        start_time = time.perf_counter_ns()
-        num_cycles = 0
-        proc = subprocess.Popen([benchmark_commands[language]], stdout=subprocess.PIPE)
-
-        time.sleep(5.0)
-
-        out = proc.communicate()[0]
-        print(out.upper())
-
-        results[language] = out
-
+        benchmark_lang(benchmark_commands[language])
+        
     # Print results
     for language in results:
         print(f"{language}: Execution Time - {results[language]:.2f} seconds")
