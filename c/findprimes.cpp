@@ -3,10 +3,12 @@
 #include <cmath>
 #include <chrono>
 #include <cstdlib>
+#include <signal.h>
 
-void findprimes(int limit) {
-    // Array for storing primes
-    std::vector<int> primes;
+std::vector<int> primes;
+int cycles;
+
+void findprimes(int limit, std::vector<int>& primes) {
     primes.push_back(2);
 
     for (int i = 3; i < limit; i += 2) {
@@ -28,9 +30,22 @@ void findprimes(int limit) {
     }
 }
 
+void siginthandler(int param) {
+    std::cout << cycles << " - " << primes.size() << std::endl;
+    exit(1);
+}
+
 int main(int argc, char **argv) {
     int limit = strtol(argv[1], nullptr, 0); // Convert first argument to integer
-    findprimes(limit);
+
+    signal(SIGINT, siginthandler);
+
+    while(true) {
+        primes.clear();
+        findprimes(limit, primes);
+        cycles += 1;
+    }
+    
 
     return 0;
 }

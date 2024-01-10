@@ -4,6 +4,7 @@
 import subprocess
 import time
 import os
+import signal
 
 # Global variable representing state of program. Used for progress bar.
 BENCHMARK_PROGRESS = 0
@@ -32,7 +33,8 @@ def benchmark_lang(script_command, max_time) -> float:
 
     proc = subprocess.Popen([], stdout=subprocess.PIPE)
     time.sleep(5.0)
-    out = proc.communicate()[0]
+    proc.send_signal(signal.SIGINT) # Tell program to stop
+    out = proc.communicate()[0] # Read program output (number of cycles completed and number of primes found during current cycle)
     print(out)
 
     return out
