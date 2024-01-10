@@ -1,0 +1,5 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "./primefinder/Cargo.toml"
+    ]
+}
