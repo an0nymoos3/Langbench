@@ -36,7 +36,7 @@ def signal_handler(sig, frame) -> None:
     global primes
     global num_cycles
 
-    print(f"{num_cycles} - {len(primes)}")
+    print(f"{num_cycles} - {len(primes)}", end="")
     sys.exit(0)
 
 def main():

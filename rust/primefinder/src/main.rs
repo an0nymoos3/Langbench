@@ -1,6 +1,15 @@
 use clap::Parser;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
+//use once_cell::sync::Lazy;
+
+/* 
+mod prime_vec;
+use crate::prime_vec::PrimeVec;
+
+static mut PRIME_VEC: Lazy<PrimeVec> = Lazy::<PrimeVec>::new(|| PrimeVec::new());
+
+*/
 
 /// A program that does things
 #[derive(Parser, Debug)]
@@ -59,5 +68,5 @@ fn main() {
     }
     cycles -= 1; // Remove the unfinished cycle
 
-    println!("{cycles} - {len}", len = primes.len()); // Print number of cycles and length of current array
+    print!("{cycles} - {len}", len = primes.len()); // Print number of cycles and length of current array
 }

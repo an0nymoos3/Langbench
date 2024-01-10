@@ -11,7 +11,7 @@ public class Main
 
         var shutdownListener = new Thread(){
             public void run() {
-                System.out.println(cycles.size() + " - " + primes.size());
+                System.out.print(cycles.size() + " - " + primes.size());
             }
         };
         Runtime.getRuntime().addShutdownHook(shutdownListener);

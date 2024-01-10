@@ -31,7 +31,7 @@ void findprimes(int limit, std::vector<int>& primes) {
 }
 
 void siginthandler(int param) {
-    std::cout << cycles << " - " << primes.size() << std::endl;
+    std::cout << cycles << " - " << primes.size();
     exit(1);
 }
 
