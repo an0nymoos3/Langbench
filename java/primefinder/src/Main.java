@@ -5,12 +5,25 @@ public class Main
 {
     public static void main(String[] args) {
         int limit = Integer.parseInt(args[0]);
-        calculatePrimes(limit);
+
+        ArrayList<Integer> primes = new ArrayList<Integer>();
+        ArrayList<Integer> cycles = new ArrayList<Integer>(); // Using arralist instead of int as temp. solution for SIGINT handler print
+
+        var shutdownListener = new Thread(){
+            public void run() {
+                System.out.println(cycles.size() + " - " + primes.size());
+            }
+        };
+        Runtime.getRuntime().addShutdownHook(shutdownListener);
+
+        while(true) {
+            primes.clear();
+            calculatePrimes(limit, primes);
+            cycles.add(0);
+        }
     }
 
-    public static void calculatePrimes(int limit) {
-        // Create a vector to store known primes
-        ArrayList<Integer> primes = new ArrayList<Integer>();
+    public static void calculatePrimes(int limit, ArrayList<Integer> primes) {
         primes.add(2); // Add first known prime
 
         for (int i=3; i < limit; i+=2) { // Iterate over all numbers from 2 to 10,000,000
