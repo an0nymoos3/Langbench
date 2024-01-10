@@ -1,15 +1,11 @@
 use clap::Parser;
-use std::sync::Arc;
-use std::sync::atomic::{AtomicBool, Ordering};
-//use once_cell::sync::Lazy;
+use once_cell::sync::Lazy;
+use std::process::exit;
 
-/* 
-mod prime_vec;
-use crate::prime_vec::PrimeVec;
+mod prime_finder;
+use crate::prime_finder::PrimeFinder;
 
-static mut PRIME_VEC: Lazy<PrimeVec> = Lazy::<PrimeVec>::new(|| PrimeVec::new());
-
-*/
+static mut PRIME_FINDER: Lazy<PrimeFinder> = Lazy::<PrimeFinder>::new(|| PrimeFinder::new());
 
 /// A program that does things
 #[derive(Parser, Debug)]
@@ -20,15 +16,11 @@ struct Args {
     limit: i32,
 }
 
-fn calc_primes(limit: i32, primes_vec: &mut Vec<i32>, is_running: &Arc<AtomicBool>) {
-    if is_running.load(Ordering::SeqCst) == false {
-        return // Return if running is false
-    }
-
+unsafe fn calc_primes(limit: i32) {
     for i in (3..limit).step_by(2) {
         let mut is_prime: bool = true;
         
-        for j in primes_vec.iter() {
+        for j in PRIME_FINDER.primes.iter() {
             if *j as f32 > f32::sqrt(i as f32) {
                 break;
             }
@@ -38,35 +30,35 @@ fn calc_primes(limit: i32, primes_vec: &mut Vec<i32>, is_running: &Arc<AtomicBoo
             }
         }
         if is_prime == true {
-            primes_vec.push(i);
+            PRIME_FINDER.primes.push(i);
         }
     }
 }
 
 fn main() {
-    let running: Arc<AtomicBool> = Arc::new(AtomicBool::new(true));
-    let running_ctrlc: Arc<AtomicBool> = running.clone();
-
     let limit: i32 = Args::parse().limit as i32;
-    let length: usize = f32::sqrt(limit as f32) as usize;
-    let mut primes: Vec<i32> = Vec::with_capacity(length);
-
-    let mut cycles: i32 = 0;
     
+    unsafe {
+        PRIME_FINDER.set_capacity(limit);
+    }
+
     // Start termination handler
     ctrlc::set_handler(move || {
-        running_ctrlc.store(false, Ordering::SeqCst); // Change running to false
+        unsafe { 
+            print!("{} - {}", PRIME_FINDER.num_cycles, PRIME_FINDER.primes.len());
+            exit(1);
+        }
     })
     .expect("Rust crashed! Failed to set termination handler!");
 
-    // Keep running while program hasn't recieved SIGINT
-    while running.load(Ordering::SeqCst) {
-        primes.clear();
-        primes.push(2);
-        calc_primes(limit, &mut primes, &running);
-        cycles += 1;
-    }
-    cycles -= 1; // Remove the unfinished cycle
 
-    print!("{cycles} - {len}", len = primes.len()); // Print number of cycles and length of current array
+    unsafe {
+        // Keep running while program hasn't recieved SIGINT
+        loop {
+            PRIME_FINDER.primes.clear();
+            PRIME_FINDER.primes.push(2);
+            calc_primes(limit);
+            PRIME_FINDER.num_cycles += 1;
+        }
+    }
 }

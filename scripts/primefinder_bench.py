@@ -36,8 +36,6 @@ def benchmark_lang(language, script_command, max_time, total_primes) -> float:
 
     (cycles, remainder) = out.split(" - ")
     result = float(cycles) + float(remainder) / float(total_primes)
-
-    #print(cycles, ", ", remainder, ", ", total_primes)
     return result
 
 
@@ -127,7 +125,9 @@ if __name__ == "__main__":
     for language in benchmark_commands:
         results[language] += benchmark_lang(language, benchmark_commands[language], max_time, total_num_primes)
         
+    os.system("clear")
+    print("-- Results --")
     # Print results
     for language in results:
-        print(f"{language}: Execution Time - {results[language]} cycles")
+        print(f"{language}: Execution Time - {results[language]/max_time:.3} cycles / second")
 
