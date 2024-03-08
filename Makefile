@@ -8,6 +8,9 @@ rust_build:
 cpp_build:
 	g++ -O3 c/findprimes.cpp -o bin/cpp_findprimes
 
+c_build:
+	g++ -O3 c/findprimes.c -o bin/c_findprimes
+
 java_build:
 	javac java/primefinder/src/Main.java
 

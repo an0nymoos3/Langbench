@@ -98,9 +98,10 @@ if __name__ == "__main__":
     max_num = input("How high (max number) would you like to go? ")
     max_time = float(input("How much time would you like to give each language? "))
 
-    results = {"C++": 0.0, "Java": 0.0, "Python": 0.0, "Rust": 0.0, "Go": 0.0}
+    results = {"C": 0.0, "C++": 0.0, "Java": 0.0, "Python": 0.0, "Rust": 0.0, "Go": 0.0}
 
     compile_commands = {
+        "C": "make c_build",
         "C++": "make cpp_build",
         "Java": "make java_build",
         "Rust": "make rust_build",
@@ -108,6 +109,7 @@ if __name__ == "__main__":
     }
 
     benchmark_commands = {
+        "C": ["./bin/c_findprimes", max_num],
         "C++": ["./bin/cpp_findprimes", max_num],
         "Java": ["java", "-cp", "java/primefinder/src/", "Main", max_num],
         "Python": ["python3", "python/findprimes.py", max_num],
