@@ -59,7 +59,7 @@ def draw_pretty_progress(progress_text) -> None:
     for _ in range(BENCHMARK_PROGRESS - 1):
         bar += "=" * 2
     bar += ">"
-    for _ in range(TOTAL_BENCHMARK_STEPS - 1 - BENCHMARK_PROGRESS):
+    for _ in range(TOTAL_BENCHMARK_STEPS + 1 - BENCHMARK_PROGRESS):
         bar += " " * 2
     bar += "]"
 
@@ -102,21 +102,18 @@ if __name__ == "__main__":
 
     compile_commands = {
         "C++": "make cpp_build",
+        "Java": "make java_build",
         "Rust": "make rust_build",
         "Go": "make go_build",
     }
-    # "Java": "make java_build",
 
     benchmark_commands = {
         "C++": ["./bin/cpp_findprimes", max_num],
+        "Java": ["java", "-cp", "java/primefinder/src/", "Main", max_num],
         "Python": ["python3", "python/findprimes.py", max_num],
         "Rust": ["./bin/rust_primefinder", "-l", max_num],
         "Go": ["./bin/go_primefinder", max_num],
     }
-    # "Java": ["java", "-cp", "java/primefinder/src/", "Main", max_num],
-
-    # "JavaScript": 0.0,
-    # "JavaScript" : "node javascript/findprimes.js {}".format(max_num),
 
     # Calculate total number of primes as refrence for calulating what fraction of a
     # cycle was completed when each language was sent SIGINT
