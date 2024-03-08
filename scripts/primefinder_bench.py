@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#import concurrent.futures
+# import concurrent.futures
 import subprocess
 import time
 import os
@@ -12,6 +12,7 @@ BENCHMARK_PROGRESS = 0
 
 # Global variable representing total amount of steps (seconds) in program. Used for progress bar.
 TOTAL_BENCHMARK_STEPS = 9
+
 
 def compile_lang(language, source_files) -> None:
     """
@@ -30,9 +31,11 @@ def benchmark_lang(language, script_command, max_time, total_primes) -> float:
 
     proc = subprocess.Popen(args=script_command, stdout=subprocess.PIPE)
     time.sleep(max_time)
-    proc.send_signal(signal.SIGINT) # Tell program to stop
+    proc.send_signal(signal.SIGINT)  # Tell program to stop
 
-    out = str(proc.communicate()[0]).strip("'").strip("b'") # Read program output (number of cycles completed and number of primes found during current cycle)
+    out = (
+        str(proc.communicate()[0]).strip("'").strip("b'")
+    )  # Read program output (number of cycles completed and number of primes found during current cycle)
 
     (cycles, remainder) = out.split(" - ")
     result = float(cycles) + float(remainder) / float(total_primes)
@@ -63,10 +66,11 @@ def draw_pretty_progress(progress_text) -> None:
     # Print progress bar
     print(bar)
 
+
 def calc_total_nr_of_primes(limit) -> float:
     """
     Looks for prime numbers up to the limit.
-    This benchmark is not meant to be run with limits above 100,000. Therefore 
+    This benchmark is not meant to be run with limits above 100,000. Therefore
     calculating the number of primes in Python should be fine despite the performance.
     """
     draw_pretty_progress("Calulating number of primes...")
@@ -75,14 +79,14 @@ def calc_total_nr_of_primes(limit) -> float:
     for i in range(3, int(limit), 2):
         is_prime = True
         sqrt_i = math.sqrt(i)
-        for _,j in enumerate(primes):
+        for _, j in enumerate(primes):
             if j > sqrt_i:
                 break
 
             if i % j == 0:
                 is_prime = False
                 break
-            
+
         if is_prime:
             primes.append(i)
 
@@ -94,28 +98,32 @@ if __name__ == "__main__":
     max_num = input("How high (max number) would you like to go? ")
     max_time = float(input("How much time would you like to give each language? "))
 
-    results = {"C++": 0.0,
-               "Java": 0.0,
-               "Python": 0.0,
-               "Rust": 0.0}
+    results = {"C++": 0.0, "Java": 0.0, "Python": 0.0, "Rust": 0.0, "Go": 0.0}
 
     compile_commands = {
-        "C++": "g++ -O3 c/findprimes.cpp -o c/findprimes",
-        "Java": "javac java/primefinder/src/Main.java", 
-        "Rust": "cargo build --manifest-path rust/primefinder/Cargo.toml --release --quiet"}
+        "C++": "make cpp_build",
+        "Rust": "make rust_build",
+        "Go": "make go_build",
+    }
+    # "Java": "make java_build",
 
     benchmark_commands = {
-        "C++" : ["./c/findprimes", max_num],
-        "Java": ["java", "-cp", "java/primefinder/src/", "Main", max_num],
+        "C++": ["./bin/cpp_findprimes", max_num],
         "Python": ["python3", "python/findprimes.py", max_num],
-        "Rust": ["./rust/primefinder/target/release/primefinder", "-l", max_num]}
-    
-    #"JavaScript": 0.0,
-    #"JavaScript" : "node javascript/findprimes.js {}".format(max_num),
+        "Rust": ["./bin/rust_primefinder", "-l", max_num],
+        "Go": ["./bin/go_primefinder", max_num],
+    }
+    # "Java": ["java", "-cp", "java/primefinder/src/", "Main", max_num],
 
-    #Calculate total number of primes as refrence for calulating what fraction of a 
-    #cycle was completed when each language was sent SIGINT
+    # "JavaScript": 0.0,
+    # "JavaScript" : "node javascript/findprimes.js {}".format(max_num),
+
+    # Calculate total number of primes as refrence for calulating what fraction of a
+    # cycle was completed when each language was sent SIGINT
     total_num_primes = calc_total_nr_of_primes(max_num)
+
+    # Clear bin/
+    os.system("make clean")
 
     # Compile all the languages.
     for language in compile_commands:
@@ -123,11 +131,14 @@ if __name__ == "__main__":
 
     # Benchmark all the languages.
     for language in benchmark_commands:
-        results[language] += benchmark_lang(language, benchmark_commands[language], max_time, total_num_primes)
-        
+        results[language] += benchmark_lang(
+            language, benchmark_commands[language], max_time, total_num_primes
+        )
+
     os.system("clear")
     print("-- Results --")
     # Print results
     for language in results:
-        print(f"{language}: Execution Time - {results[language]/max_time:.3} cycles / second")
-
+        print(
+            f"{language}: Execution Time - {results[language]/max_time:.3} cycles / second"
+        )
