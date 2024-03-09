@@ -4,6 +4,7 @@
 import subprocess
 import time
 import os
+import sys
 import signal
 import math
 
@@ -12,6 +13,41 @@ BENCHMARK_PROGRESS = 0
 
 # Global variable representing total amount of steps (seconds) in program. Used for progress bar.
 TOTAL_BENCHMARK_STEPS = 0
+
+# Default command line options
+PROGRESS_BAR = True
+PARALLELL = False
+
+
+def print_help() -> None:
+    os.system("clear")
+
+    help_message = """ primefinder_bench.py [options]
+Options: 
+    -h  | --help       | Prints this message.
+    -np | --no-progbar | Don't print the progressbar. 
+    -p  | --parallell  | Run all benchmarks in parallell (if enough CPU threads are available) """
+
+    print(help_message)
+
+
+def parse_args() -> None:
+    """
+    Reads through command line args and sets proper options for the benchmarks.
+    """
+    global PROGRESS_BAR
+    global PARALLELL
+
+    for arg in sys.argv:
+        if arg == "-h" or arg == "--help":
+            print_help()
+            exit(0)
+
+        if arg == "-np" or arg == "--no-progbar":
+            PROGRESS_BAR = False
+
+        if arg == "-p" or arg == "--parallell":
+            PARALLELL = True
 
 
 def compile_lang(language, source_files) -> None:
@@ -97,12 +133,16 @@ def calc_total_nr_of_primes(limit) -> float:
 
 
 if __name__ == "__main__":
+    # Check commandline
+    parse_args()
+
+    # Ask user about benchmark
     os.system("clear")
     max_num = input("How high (max number) would you like to go? ")
     max_time = float(input("How much time would you like to give each language? "))
 
+    # Containers needed to run the benchmarks
     results = {"C": 0.0, "C++": 0.0, "Java": 0.0, "Python": 0.0, "Rust": 0.0, "Go": 0.0}
-
     compile_commands = {
         "C": "make c_build",
         "C++": "make cpp_build",
@@ -110,7 +150,6 @@ if __name__ == "__main__":
         "Rust": "make rust_build",
         "Go": "make go_build",
     }
-
     benchmark_commands = {
         # "C": ["./bin/c_findprimes", max_num],
         "C++": ["./bin/cpp_findprimes", max_num],
