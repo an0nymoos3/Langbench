@@ -148,17 +148,17 @@ if __name__ == "__main__":
     compile_commands = {
         "C": "make c_build",
         "C++": "make cpp_build",
+        "Go": "make go_build",
         "Java": "make java_build",
         "Rust": "make rust_build",
-        "Go": "make go_build",
     }
     benchmark_commands = {
         # "C": ["./bin/c_findprimes", max_num],
         "C++": ["./bin/cpp_findprimes", max_num],
+        "Go": ["./bin/go_primefinder", max_num],
         "Java": ["java", "-cp", "java/primefinder/src/", "Main", max_num],
         "Python": ["python3", "python/findprimes.py", max_num],
         "Rust": ["./bin/rust_primefinder", max_num],
-        "Go": ["./bin/go_primefinder", max_num],
     }
 
     # Set actual number of steps to run.
