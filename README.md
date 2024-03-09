@@ -21,11 +21,12 @@ and follow the instructions.
 
 ## Currently tested languages
 
--  C 
--  C++
--  Rust 
--  Go 
--  Python
+- C 
+- C++
+- Go 
+- Java
+- Python
+- Rust 
 
 ## Contributing
 Any contributions are welcome.
