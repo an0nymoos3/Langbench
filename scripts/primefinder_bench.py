@@ -55,7 +55,7 @@ def compile_lang(language, source_files) -> None:
     Compile benchmark for specified programming language.
     """
     draw_pretty_progress(f"Compiling: {language}")
-    subprocess.run(source_files, shell=True)
+    subprocess.run(source_files, shell=True, stdout=subprocess.PIPE)
 
 
 def benchmark_lang(language, script_command, max_time, total_primes) -> float:
@@ -87,23 +87,25 @@ def draw_pretty_progress(progress_text) -> None:
     """
     global BENCHMARK_PROGRESS
     global TOTAL_BENCHMARK_STEPS
+    global PROGRESS_BAR
 
-    os.system("clear")
-    print(progress_text)
+    if PROGRESS_BAR:
+        os.system("clear")
+        print(progress_text)
 
-    BENCHMARK_PROGRESS += 1
+        BENCHMARK_PROGRESS += 1
 
-    # Build the progress bar string.
-    bar = "["
-    for _ in range(BENCHMARK_PROGRESS - 1):
-        bar += "="
-    bar += ">"
-    for _ in range(TOTAL_BENCHMARK_STEPS + 1 - BENCHMARK_PROGRESS):
-        bar += " "
-    bar += "]"
+        # Build the progress bar string.
+        bar = "["
+        for _ in range(BENCHMARK_PROGRESS - 1):
+            bar += "="
+        bar += ">"
+        for _ in range(TOTAL_BENCHMARK_STEPS + 1 - BENCHMARK_PROGRESS):
+            bar += " "
+        bar += "]"
 
-    # Print progress bar
-    print(bar)
+        # Print progress bar
+        print(bar)
 
 
 def calc_total_nr_of_primes(limit) -> float:
@@ -168,6 +170,7 @@ if __name__ == "__main__":
 
     # Clear bin/
     os.system("make clean")
+    os.system("clear")
 
     # Compile all the languages.
     for language in compile_commands:
