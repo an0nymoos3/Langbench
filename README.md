@@ -19,5 +19,13 @@ python3 scripts/primefinder_bench.py
 ```
 and follow the instructions.
 
+## Currently tested languages
+
+-  C 
+-  C++
+-  Rust 
+-  Go 
+-  Python
+
 ## Contributing
 Any contributions are welcome.
