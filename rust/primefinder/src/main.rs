@@ -72,11 +72,9 @@ fn main() {
             exit(1)
         })
         .expect("Error setting Ctrl-C handler");
-    }
 
-    // Run the algorithm over and over until interrupted
-    loop {
-        unsafe {
+        // Run the algorithm over and over until interrupted
+        loop {
             find_primes(limit, &raw_ptrs);
         }
     }
