@@ -52,7 +52,6 @@ fn main() {
     let limit: i32;
 
     // Skip out of bounds check
-    #[allow(unused_unsafe)]
     unsafe {
         limit = args.get_unchecked(1).parse::<i32>().unwrap();
     }
