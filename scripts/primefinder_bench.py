@@ -11,7 +11,7 @@ import math
 BENCHMARK_PROGRESS = 0
 
 # Global variable representing total amount of steps (seconds) in program. Used for progress bar.
-TOTAL_BENCHMARK_STEPS = 9
+TOTAL_BENCHMARK_STEPS = 0
 
 
 def compile_lang(language, source_files) -> None:
@@ -30,9 +30,12 @@ def benchmark_lang(language, script_command, max_time, total_primes) -> float:
     draw_pretty_progress(f"Running: {language}")
 
     proc = subprocess.Popen(args=script_command, stdout=subprocess.PIPE)
-    time.sleep(max_time)
-    proc.send_signal(signal.SIGINT)  # Tell program to stop
 
+    time.sleep(max_time / 2)
+    draw_pretty_progress(f"Running: {language}")
+    time.sleep(max_time / 2)
+
+    proc.send_signal(signal.SIGINT)  # Tell program to stop
     out = (
         str(proc.communicate()[0]).strip("'").strip("b'")
     )  # Read program output (number of cycles completed and number of primes found during current cycle)
@@ -57,10 +60,10 @@ def draw_pretty_progress(progress_text) -> None:
     # Build the progress bar string.
     bar = "["
     for _ in range(BENCHMARK_PROGRESS - 1):
-        bar += "=" * 2
+        bar += "="
     bar += ">"
     for _ in range(TOTAL_BENCHMARK_STEPS + 1 - BENCHMARK_PROGRESS):
-        bar += " " * 2
+        bar += " "
     bar += "]"
 
     # Print progress bar
@@ -109,13 +112,16 @@ if __name__ == "__main__":
     }
 
     benchmark_commands = {
-        "C": ["./bin/c_findprimes", max_num],
+        # "C": ["./bin/c_findprimes", max_num],
         "C++": ["./bin/cpp_findprimes", max_num],
         "Java": ["java", "-cp", "java/primefinder/src/", "Main", max_num],
         "Python": ["python3", "python/findprimes.py", max_num],
-        "Rust": ["./bin/rust_primefinder", "-l", max_num],
+        "Rust": ["./bin/rust_primefinder", max_num],
         "Go": ["./bin/go_primefinder", max_num],
     }
+
+    # Set actual number of steps to run.
+    TOTAL_BENCHMARK_STEPS = len(compile_commands) + len(benchmark_commands) * 2
 
     # Calculate total number of primes as refrence for calulating what fraction of a
     # cycle was completed when each language was sent SIGINT

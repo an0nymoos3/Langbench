@@ -3,9 +3,8 @@ use std::process::exit;
 
 #[derive(Clone, Copy)]
 struct HoldsRawPtr {
-    num_cycles: *const i32,
+    num_cycles: *mut i32,
     primes: *mut Vec<i32>,
-    primes_len: *mut usize,
 }
 
 // By implementing the Send trait, we tell compiler that this type can be transferred between
@@ -15,11 +14,13 @@ unsafe impl Send for HoldsRawPtr {}
 unsafe impl Sync for HoldsRawPtr {}
 
 unsafe fn find_primes(limit: i32, raw_ptrs: &HoldsRawPtr) {
-    for i in (0..limit).step_by(2) {
+    (*raw_ptrs.primes).set_len(1);
+
+    for i in (3..limit).step_by(2) {
         let mut is_prime: bool = true;
         let inner_limit: f32 = f32::sqrt(i as f32);
 
-        for prime in raw_ptrs.primes.read().iter() {
+        for prime in (*raw_ptrs.primes).iter() {
             if *prime as f32 > inner_limit {
                 break;
             }
@@ -30,10 +31,10 @@ unsafe fn find_primes(limit: i32, raw_ptrs: &HoldsRawPtr) {
         }
 
         if is_prime {
-            raw_ptrs.primes.read()[*raw_ptrs.primes_len - 1] = i;
-            *raw_ptrs.primes_len += 1;
+            (*raw_ptrs.primes).push(i);
         }
     }
+    *raw_ptrs.num_cycles += 1;
 }
 
 fn main() {
@@ -49,19 +50,14 @@ fn main() {
     let mut primes: Vec<i32> = vec![2];
 
     let raw_ptrs: HoldsRawPtr = HoldsRawPtr {
-        num_cycles: &0,
+        num_cycles: &mut 0,
         primes: &mut primes,
-        primes_len: &mut 1,
     };
 
     unsafe {
         ctrlc::set_handler(move || {
             let move_ptrs = raw_ptrs;
-            print!(
-                "{} - {}",
-                move_ptrs.num_cycles.read(),
-                move_ptrs.primes_len.read(),
-            );
+            print!("{} - {}", *move_ptrs.num_cycles, (*move_ptrs.primes).len());
             exit(1)
         })
         .expect("Error setting Ctrl-C handler");
