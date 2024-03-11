@@ -30,8 +30,8 @@ and follow the instructions.
 
 ## TODO:
 
-[x] Finish time limited prime number benchmark.
-[ ] Add Game of Life benchmark
+[x] Finish time limited prime number benchmark.  
+[ ] Add Game of Life benchmark  
 
 ## Contributing
 Any contributions are welcome.
