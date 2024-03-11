@@ -153,7 +153,7 @@ if __name__ == "__main__":
         "Rust": "make rust_build",
     }
     benchmark_commands = {
-        # "C": ["./bin/c_findprimes", max_num],
+        "C": ["./bin/c_findprimes", max_num],
         "C++": ["./bin/cpp_findprimes", max_num],
         "Go": ["./bin/go_primefinder", max_num],
         "Java": ["java", "-cp", "java/primefinder/src/", "Main", max_num],
