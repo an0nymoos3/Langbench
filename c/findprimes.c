@@ -55,14 +55,12 @@ void siginthandler() {
 }
 
 int main(int argc, char **argv) {
-  int *prime_arr = (int *)malloc(sizeof(int) * 2048);
-  primes = prime_arr;
+  primes = (int *)malloc(sizeof(int) * 2048);
 
   signal(SIGINT, (__sighandler_t)siginthandler);
 
   while (true) {
     findprimes(atoi(argv[1]));
-    // printf("PRIMES: %d\n", primes_len);
   }
 
   return 0;
