@@ -1,6 +1,9 @@
 use std::env;
 use std::process::exit;
 
+#[global_allocator]
+static GLOBAL: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
+
 #[derive(Clone, Copy)]
 struct HoldsRawPtr {
     num_cycles: *mut i32,

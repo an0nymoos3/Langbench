@@ -144,7 +144,7 @@ if __name__ == "__main__":
     max_time = float(input("How much time would you like to give each language? "))
 
     # Containers needed to run the benchmarks
-    results = {"C": 0.0, "C++": 0.0, "Java": 0.0, "Python": 0.0, "Rust": 0.0, "Go": 0.0}
+    results = {"C": 0.0, "C++": 0.0, "Go": 0.0, "Java": 0.0, "Python": 0.0, "Rust": 0.0}
     compile_commands = {
         "C": "make c_build",
         "C++": "make cpp_build",
