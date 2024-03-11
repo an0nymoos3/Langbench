@@ -15,7 +15,7 @@ To run the current iteration of the project you will need.
 Once all requirements above are met you are ready to run.
 Simply run 
 ```
-python3 scripts/primefinder_bench.py
+python3 scripts/<your_favourite_benchmark>.py
 ```
 and follow the instructions.
 
@@ -27,6 +27,11 @@ and follow the instructions.
 - Java
 - Python
 - Rust 
+
+## TODO:
+
+[x] Finish time limited prime number benchmark.
+[ ] Add Game of Life benchmark
 
 ## Contributing
 Any contributions are welcome.
