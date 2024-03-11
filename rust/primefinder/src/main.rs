@@ -13,6 +13,7 @@ unsafe impl Send for HoldsRawPtr {}
 // Sync trait tells compiler that `&T` is safe to share between threads
 unsafe impl Sync for HoldsRawPtr {}
 
+#[inline(always)]
 unsafe fn find_primes(limit: i32, raw_ptrs: &HoldsRawPtr) {
     (*raw_ptrs.primes).set_len(1); // Set length back to one (vec = [2]), without having to reset
                                    // all elements.
