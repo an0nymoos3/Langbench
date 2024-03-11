@@ -1,6 +1,5 @@
 # Langbench
-Lang-Bench is a project where we write fast performant pieces of code we can come up with in different languages to test our own skills, as well as the
-performance of each language.
+Lang-Bench is a project where we write as performant pieces of code we can, in different languages to test our own skills, as well as the performance of each language.
 
 ## Running this project
 To run the current iteration of the project you will need.
