@@ -7,6 +7,7 @@
 int num_cycles;
 int *primes;
 int primes_len = 1;
+int capacity = 2048;
 
 void findprimes(int limit) {
   primes_len = 1;
@@ -34,6 +35,11 @@ void findprimes(int limit) {
     }
 
     if (is_prime) {
+      if (capacity == primes_len) {
+        primes = (int *)realloc(primes, capacity * 2);
+        capacity = capacity * 2;
+      }
+
       // printf("Adding: %d , len: %d\n", i, primes_len);
       primes[primes_len] = i;
       primes_len += 1;
@@ -49,12 +55,7 @@ void siginthandler() {
 }
 
 int main(int argc, char **argv) {
-  int array_size =
-      atoi(argv[1]) /
-      2; // Worst case estimate for number of primes. Assume argv[1] is large
-         // enough that this wont ever fail, like with limit = 3
-
-  int prime_arr[700000]; // This is good up to 10 000 000
+  int *prime_arr = (int *)malloc(sizeof(int) * 2048);
   primes = prime_arr;
 
   signal(SIGINT, (__sighandler_t)siginthandler);
