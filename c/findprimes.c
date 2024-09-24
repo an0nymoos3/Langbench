@@ -36,7 +36,7 @@ void findprimes(int limit) {
 
     if (is_prime) {
       if (capacity == primes_len) {
-        primes = (int *)realloc(primes, capacity * 2);
+        primes = (int *)realloc(primes, sizeof(int) * capacity * 2);
         capacity = capacity * 2;
       }
 
@@ -55,7 +55,7 @@ void siginthandler() {
 }
 
 int main(int argc, char **argv) {
-  primes = (int *)malloc(sizeof(int) * 2048);
+  primes = (int *)malloc(sizeof(int) * capacity);
 
   signal(SIGINT, (__sighandler_t)siginthandler);
 
