@@ -1,3 +1,6 @@
+# Default target when just typing 'make'
+.DEFAULT_GOAL := all
+
 go_build:
 	go build -o bin/go_primefinder go/cmd/findprimes/main.go
  
@@ -13,6 +16,12 @@ c_build:
 
 java_build:
 	javac java/primefinder/src/Main.java
+
+zig_build:
+	zig build-exe -O ReleaseFast zig/findprimes.zig -femit-bin=bin/zig_findprimes
+
+# All build target
+all: go_build rust_build cpp_build c_build java_build zig_build
 
 clean:
 	rm -rf bin/
