@@ -144,13 +144,22 @@ if __name__ == "__main__":
     max_time = float(input("How much time would you like to give each language? "))
 
     # Containers needed to run the benchmarks
-    results = {"C": 0.0, "C++": 0.0, "Go": 0.0, "Java": 0.0, "Python": 0.0, "Rust": 0.0}
+    results = {
+        "C": 0.0,
+        "C++": 0.0,
+        "Go": 0.0,
+        "Java": 0.0,
+        "Python": 0.0,
+        "Rust": 0.0,
+        "Zig": 0.0,
+    }
     compile_commands = {
         "C": "make c_build",
         "C++": "make cpp_build",
         "Go": "make go_build",
         "Java": "make java_build",
         "Rust": "make rust_build",
+        "Zig": "make zig_build",
     }
     benchmark_commands = {
         "C": ["./bin/c_findprimes", max_num],
@@ -159,6 +168,7 @@ if __name__ == "__main__":
         "Java": ["java", "-cp", "java/primefinder/src/", "Main", max_num],
         "Python": ["python3", "python/findprimes.py", max_num],
         "Rust": ["./bin/rust_primefinder", max_num],
+        "Zig": ["./bin/zig_primefinder", max_num],
     }
 
     # Set actual number of steps to run.

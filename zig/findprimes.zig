@@ -1,13 +1,30 @@
 const std = @import("std");
 const ArrayList = std.ArrayList;
 const FixedBufAllocator = std.heap.FixedBufferAllocator;
+const c = @cImport({
+    @cInclude("signal.h");
+    @cInclude("unistd.h");
+});
+
+const SIGINT = 2; // Signal number for SIGINT
 
 const PrimesBuffer = struct {
     len: usize,
+    cycles: usize,
     buffer: ArrayList(u32),
 };
 
-fn findprimes(limit: u32, primes_buffer: *PrimesBuffer) !void {
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+const allocator = gpa.allocator();
+const buffer: ArrayList(u32) = ArrayList(u32).init(allocator);
+
+var primes_buffer = PrimesBuffer{
+    .len = 0,
+    .cycles = 0,
+    .buffer = buffer,
+};
+
+fn findprimes(limit: u32) !void {
     // Add 2 as the first prime
     primes_buffer.len = 1;
     try primes_buffer.buffer.append(2);
@@ -37,17 +54,34 @@ fn findprimes(limit: u32, primes_buffer: *PrimesBuffer) !void {
             primes_buffer.len += 1;
         }
     }
+    primes_buffer.cycles += 1;
+}
+
+fn handle_sigint(_: c_int) callconv(.C) void {
+    const stdout = std.io.getStdOut().writer();
+    errdefer std.process.exit(0);
+    try stdout.print("{} - {}", .{ primes_buffer.cycles, primes_buffer.len });
+    std.process.exit(0);
 }
 
 pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    const allocator = gpa.allocator();
-    const buffer: ArrayList(u32) = ArrayList(u32).init(allocator);
+    // Create a sigaction struct to specify the signal handling behavior
+    var sa: c.struct_sigaction = undefined;
+    sa.__sigaction_handler.sa_handler = handle_sigint;
+    sa.sa_flags = 0; // No special flags for simplicity
+    _ = c.sigemptyset(&sa.sa_mask); // Clear the signal mask
 
-    var primes_buffer = PrimesBuffer{
-        .len = 0,
-        .buffer = buffer,
-    };
+    // Set the signal handler for SIGINT
+    _ = c.sigaction(SIGINT, &sa, null);
 
-    try findprimes(10000000, &primes_buffer);
+    // Get commandline arguments
+    const args_allocator = std.heap.page_allocator;
+    var args = try std.process.argsWithAllocator(args_allocator);
+    _ = args.skip();
+    const limit_arg: []const u8 = args.next().?;
+    const limit_u32: u32 = try std.fmt.parseInt(u32, limit_arg, 10);
+
+    while (true) {
+        try findprimes(limit_u32);
+    }
 }
